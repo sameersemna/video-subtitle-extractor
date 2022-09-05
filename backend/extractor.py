@@ -73,10 +73,8 @@ class SubtitleExtractor:
         self.temp_output_dir = os.path.join(os.path.dirname(config.BASE_DIR), 'output', str(self.vd_name))
         # 视频帧总数
         self.frame_count = self.video_cap.get(cv2.CAP_PROP_FRAME_COUNT)
-        print('SSS: frame_count: ' + str(self.frame_count))
         # 视频帧率
         self.fps = self.video_cap.get(cv2.CAP_PROP_FPS)
-        print('SSS: fps: ' + str(self.fps))
         # 视频尺寸
         self.frame_height = int(self.video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.frame_width = int(self.video_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -137,26 +135,19 @@ class SubtitleExtractor:
         # 创建一个字幕OCR识别进程
         subtitle_ocr_process = self.start_subtitle_ocr_async()
         if self.sub_area is not None:
-            print('SSS: Sub Area ' + str(self.sub_area))
             # 如果开启精准模式
             if config.ACCURATE_MODE_ON:
-                print('SSS: ACCURATE_MODE_ON')
                 # 开启精准模式并且有GPU加速
                 if config.USE_GPU:
-                    print('SSS: Using GPU')
                     self.extract_frame_by_det()
                 else:
-                    print('SSS: Without Using GPU')
                     self.extract_frame_by_fps()
             # 如果没有开启精准模式
             else:
-                print('SSS: ACCURATE_MODE_OFF')
                 # 没有开启精准模式且操作系统为Windows
                 if platform.system() == 'Windows':
-                    print('SSS: Windows')
                     self.extract_frame_by_vsf()
                 else:
-                    print('SSS: NOT Windows')
                     self.extract_frame_by_fps()
         else:
             self.extract_frame_by_fps()
@@ -745,7 +736,7 @@ class SubtitleExtractor:
                         string_b = i[1].replace(' ', '')
                         similarity_ratio = ratio(string_a, string_b)
                         # 打印相似度
-                        print(f'{similarity_ratio}: {unique_subtitle_list[-1][2]} vs {i[1]}')
+                        # print(f'{similarity_ratio}: {unique_subtitle_list[-1][2]} vs {i[1]}')
                         # 如果相似度小于阈值，说明该两行字幕不一样
                         if similarity_ratio < config.THRESHOLD_TEXT_SIMILARITY:
                             unique_subtitle_list.append((start_frame, end_frame, i[1]))
@@ -757,7 +748,7 @@ class SubtitleExtractor:
                                 # TODO:
                                 # 1) 取出两行字幕的并集
                                 # 2) 纠错
-                                print(f'{round(similarity_ratio, 2)}, 需要手动纠错:\n {string_a} vs\n {string_b}')
+                                # print(f'{round(similarity_ratio, 2)}, 需要手动纠错:\n {string_a} vs\n {string_b}')
                                 # 保存较长的
                                 if len(string_a) < len(string_b):
                                     unique_subtitle_list[-1] = (start_frame, end_frame, i[1])
@@ -986,20 +977,3 @@ class SubtitleExtractor:
         # 开启线程负责更新OCR进度
         Thread(target=get_ocr_progress, daemon=True).start()
         return process
-
-
-if __name__ == '__main__':
-    multiprocessing.set_start_method("spawn")
-    # 提示用户输入视频路径
-    video_path = input(f"{config.interface_config['Main']['InputVideo']}").strip()
-    # 提示用户输入字幕区域
-    try:
-        y_min, y_max, x_min, x_max = map(int, input(
-            f"{config.interface_config['Main']['ChooseSubArea']} (ymin ymax xmin xmax)：").split())
-        subtitle_area = (y_min, y_max, x_min, x_max)
-    except ValueError as e:
-        subtitle_area = None
-    # 新建字幕提取对象
-    se = SubtitleExtractor(video_path, subtitle_area)
-    # 开始提取字幕
-    se.run()
