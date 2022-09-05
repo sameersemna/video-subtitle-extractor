@@ -273,4 +273,6 @@ conda install Shapely
   <a href="https://jb.gg/OpenSourceSupport"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="80"></a>
 </div>
 
+https://colab.research.google.com/github/sameersemna/video-subtitle-extractor/blob/colab/google_colab_bulk.ipynb
+
 git push sameersemna colab
