@@ -28,9 +28,9 @@ if not os.path.exists(os.path.join(os.path.dirname(os.path.dirname(__file__)), '
     # 如果没有配置文件，默认使用中文
     with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'settings.ini'), mode='w', encoding='utf-8') as f:
         f.write('[DEFAULT]\n')
-        f.write('Interface = 简体中文\n')
-        f.write('Language = ch\n')
-        f.write('Mode = fast')
+        f.write('Interface = English\n')
+        f.write('Language = en\n')
+        f.write('Mode = accurate')
 settings_config.read(MODE_CONFIG_PATH, encoding='utf-8')
 
 # 读取interface下的语言配置,e.g. ch.ini

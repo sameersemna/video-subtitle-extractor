@@ -38,7 +38,6 @@ def extractSubs():
       print('No video path found in: ' + fileVideoPath)
       exit()
       
-    multiprocessing.set_start_method("spawn")
     with open(fileVideoPath, 'r') as file:
       video_path = file.read().rstrip()
 
@@ -142,4 +141,5 @@ def processList(inputList):
             # exit()
             
 if __name__ == '__main__':
+  multiprocessing.set_start_method("spawn")
   processList(fileList)
