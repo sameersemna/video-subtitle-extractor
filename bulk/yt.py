@@ -131,27 +131,7 @@ def processYT(ytId):
       print('Extraction failed: ' + fileSrt)
       exit()
 
-def processList(inputList):
-    with open(inputList, 'r') as csvfile:
-        datareader = csv.reader(csvfile)
-        for row in datareader:
-            print('********************************')
-            ytId = row[0]
-            lang = row[1]
-            
-            lineNum = searchFile(fileDone, ytId)
-            
-            if lineNum != False:
-                print('Processed earlier, found YT: %s, in Done list at Line No. %s' % (ytId, lineNum))
-                continue
-            
-            processSuccess = processYT(ytId)
-            
-            if not processSuccess:
-              continue
-                
-            # exit()
-            
 if __name__ == '__main__':
   multiprocessing.set_start_method("spawn")
-  processList(fileList)
+  ytId = input(f"{config.interface_config['Main']['InputYT']}").strip()
+  processYT(ytId)
