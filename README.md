@@ -77,7 +77,7 @@ Video-subtitle-extractor (vse) 是一款将视频中的硬字幕提取为外挂�
 
 ## 在线运行
 
-- 使用**Google Colab Notebook**(免费GPU): <a href="https://colab.research.google.com/github/YaoFANGUK/video-subtitle-extractor/blob/main/google_colab_bulk.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+- 使用**Google Colab Notebook**(免费GPU): <a href="https://colab.research.google.com/github/sameersemna/video-subtitle-extractor/blob/main/google_colab_bulk.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
 > PS: Google Colab只能运行CLI版本
 
@@ -273,3 +273,4 @@ conda install Shapely
   <a href="https://jb.gg/OpenSourceSupport"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="80"></a>
 </div>
 
+git push sameersemna colab
