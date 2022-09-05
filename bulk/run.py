@@ -94,16 +94,22 @@ def processList(inputList):
               print('File exists, no need to download: ' + fileMp4)
             else:
               print('Download file: ' + fileMp4)
-              # YouTube('https://youtu.be/' + ytId).streams.first().download()
-              yt = YouTube('https://youtube.com/watch?v=' + ytId)
-              # resolucoes = yt.streams.all()
-              # for i in resolucoes:  # mostra as resoluções disponíveis
-              #   print(i)
-              # exit()
-        
-              # yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(folderDownload, ytId + '.mp4')
-              yt.streams.filter(file_extension='mp4').order_by('resolution').desc().first().download(folderDownload, ytId + '.mp4')
-              print('Download complete YT: %s to: %s' % (ytId, fileMp4))
+              
+              try:
+                # YouTube('https://youtu.be/' + ytId).streams.first().download()
+                yt = YouTube('https://youtube.com/watch?v=' + ytId)
+                # resolucoes = yt.streams.all()
+                # for i in resolucoes:  # mostra as resoluções disponíveis
+                #   print(i)
+                # exit()
+          
+                # yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(folderDownload, ytId + '.mp4')
+                yt.streams.filter(file_extension='mp4').order_by('resolution').desc().first().download(folderDownload, ytId + '.mp4')
+                
+                print('Download complete YT: %s to: %s' % (ytId, fileMp4))
+              except:
+                print('XXX Warning: Download failed YT: %s to: %s' % (ytId, fileMp4))
+                continue
               
               print('Waiting for 5 seconds')
               time.sleep(5)
