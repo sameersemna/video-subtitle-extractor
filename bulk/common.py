@@ -105,7 +105,7 @@ def getSubtitleArea(video_path, ytId):
     return subtitle_area
 
 
-def extractSubs(ytId):
+def extractSubs(ytId, lang):
     if not exists(fileVideoPath):
       print('No video path found in: ' + fileVideoPath)
       exit()
@@ -115,7 +115,7 @@ def extractSubs(ytId):
     print('Video path: ' + video_path)
 
     subtitle_area = getSubtitleArea(video_path, ytId)
-    se = SubtitleExtractor(video_path, subtitle_area)
+    se = SubtitleExtractor(video_path, subtitle_area, lang[0:2])
     se.run()
     
 def downloadYT(ytId, fileMp4):
@@ -167,7 +167,7 @@ def processYT(ytId, lang):
       return False
     else:
       print('Extracting file: ' + fileSrt)
-      extractSubs(ytId)
+      extractSubs(ytId, lang)
       print('Waiting for 5 seconds')
       time.sleep(5)
       os.rename(fileSrtTmp, fileSrt)

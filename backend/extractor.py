@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-@Author  : Fang Yao
-@Time    : 2021/3/24 9:28 上午
-@FileName: main.py
-@desc: 主程序入口文件
-"""
+
 import re
 import os
 import random
@@ -56,7 +51,7 @@ class SubtitleExtractor:
     """
     视频字幕提取类
     """
-    def __init__(self, vd_path, sub_area=None):
+    def __init__(self, vd_path, sub_area=None, lang = config.REC_CHAR_TYPE):
         importlib.reload(config)
         # 线程锁
         self.lock = threading.RLock()
@@ -97,8 +92,9 @@ class SubtitleExtractor:
         self.raw_subtitle_path = os.path.join(self.subtitle_output_dir, 'raw.txt')
         # 自定义ocr对象
         self.ocr = None
+        self.lang = lang
         # 打印识别语言与识别模式
-        print(f"{config.interface_config['Main']['RecSubLang']}：{config.REC_CHAR_TYPE}")
+        print(f"{config.interface_config['Main']['RecSubLang']}：{self.lang}")
         print(f"{config.interface_config['Main']['RecMode']}：{config.MODE_TYPE}")
         # 如果使用GPU加速，则打印GPU加速提示
         if config.USE_GPU:
@@ -186,7 +182,7 @@ class SubtitleExtractor:
             # 如果未使用vsf提取字幕，则使用常规字幕生成方法
             self.generate_subtitle_file()
         # 如果识别的字幕语言包含英文，则将英文分词
-        if config.REC_CHAR_TYPE in ('ch', 'EN', 'en', 'ch_tra'):
+        if self.lang in ('ch', 'EN', 'en', 'ch_tra'):
             reformat(os.path.join(os.path.splitext(self.video_path)[0] + '.srt'))
         print(config.interface_config['Main']['FinishGenerateSub'], f"{round(time.time() - start_time, 2)}s")
         self.update_progress(ocr=100, frame_extract=100)
@@ -870,7 +866,7 @@ class SubtitleExtractor:
         比较两张图片预测出的字幕区域文本是否相同
         """
         if self.ocr is None:
-            self.ocr = OcrRecogniser()
+            self.ocr = OcrRecogniser(self.lang)
         if img1_no in result_cache:
             area_text1 = result_cache[img1_no]['text']
         else:
@@ -966,7 +962,7 @@ class SubtitleExtractor:
         process, task_queue, progress_queue = subtitle_ocr.async_start(self.video_path,
                                                                        self.raw_subtitle_path,
                                                                        self.sub_area,
-                                                                       options={'REC_CHAR_TYPE': config.REC_CHAR_TYPE,
+                                                                       options={'REC_CHAR_TYPE': self.lang,
                                                                                 'DROP_SCORE': config.DROP_SCORE,
                                                                                 'SUB_AREA_DEVIATION_RATE': config.SUB_AREA_DEVIATION_RATE,
                                                                                 'DEBUG_OCR_LOSS': config.DEBUG_OCR_LOSS,
