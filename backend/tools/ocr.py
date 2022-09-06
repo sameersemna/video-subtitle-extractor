@@ -6,11 +6,11 @@ import importlib
 
 # 加载文本检测+识别模型
 class OcrRecogniser:
-    def __init__(self):
+    def __init__(self, lang = config.REC_CHAR_TYPE):
         # 获取参数对象
         importlib.reload(config)
         self.args = utility.parse_args()
-        self.recogniser = self.init_model()
+        self.recogniser = self.init_model(lang)
 
     @staticmethod
     def y_round(y):
@@ -83,7 +83,7 @@ class OcrRecogniser:
         else:
             return detection_box, recognise_result
 
-    def init_model(self):
+    def init_model(self, lang = config.REC_CHAR_TYPE):
         self.args.use_gpu = config.USE_GPU
         # 设置文本检测模型路径
         self.args.det_model_dir = config.DET_MODEL_PATH
@@ -92,7 +92,7 @@ class OcrRecogniser:
         self.args.rec_char_dict_path = config.DICT_PATH
         self.args.rec_image_shape = config.REC_IMAGE_SHAPE
         # 设置识别文本的类型
-        self.args.rec_char_type = config.REC_CHAR_TYPE
+        self.args.rec_char_type = lang
         return TextSystem(self.args)
 
 
