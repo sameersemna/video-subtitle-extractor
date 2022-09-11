@@ -13,14 +13,12 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(1, './backend')
 from extractor import SubtitleExtractor
-import sys
 
-IN_COLAB = 'google.colab' in sys.modules
-
-if IN_COLAB:
-  print('*** INFO: Running on CoLab ***')
-else:
-  print('*** INFO: Not running on CoLab ***')
+try:
+  import google.colab
+  IN_COLAB = True
+except:
+  IN_COLAB = False
 
 folderWrk = './bulk'
 folderDownload = folderWrk + '/download'
@@ -182,10 +180,6 @@ def processYT(ytId, lang):
       
     if exists(fileSrt):
       print('Extraction complete: ' + fileSrt)
-      
-      if IN_COLAB:
-        from google.colab import files
-        files.download(fileSrt) 
 
       os.remove(fileMp4)
       os.remove(fileVideoPath)
