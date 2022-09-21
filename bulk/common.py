@@ -25,8 +25,8 @@ folderDownload = folderWrk + '/download'
 
 fileList = folderWrk + '/list.csv'
 fileDone = folderWrk + '/done.csv'
-fileError = folderWrk + './error.csv'
-fileErrorDownload = folderWrk + './errorDownload.csv'
+fileError = folderWrk + '/error.csv'
+fileErrorDownload = folderWrk + '/errorDownload.csv'
 fileChannels = folderWrk + '/channels.csv'
 fileVideoPath = folderWrk + '/video_path.tmp'
 
