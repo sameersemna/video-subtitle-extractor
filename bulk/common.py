@@ -25,6 +25,8 @@ folderDownload = folderWrk + '/download'
 
 fileList = folderWrk + '/list.csv'
 fileDone = folderWrk + '/done.csv'
+fileError = folderWrk + './error.csv'
+fileErrorDownload = folderWrk + './errorDownload.csv'
 fileChannels = folderWrk + '/channels.csv'
 fileVideoPath = folderWrk + '/video_path.tmp'
 
@@ -161,6 +163,8 @@ def processYT(ytId, lang):
     downloadSuccess = downloadYT(ytId, fileMp4)
     
     if not downloadSuccess:
+      with open(fileErrorDownload, 'a') as fd:
+          fd.write(ytId + "\n")
       return False            
 
     with open(fileVideoPath, 'w') as fd:
@@ -184,7 +188,9 @@ def processYT(ytId, lang):
       os.remove(fileMp4)
       os.remove(fileVideoPath)
       with open(fileDone, 'a') as fd:
-          fd.write(ytId + "\n") 
+          fd.write(ytId + "\n")
     else:
       print('Extraction failed: ' + fileSrt)
+      with open(fileError, 'a') as fd:
+          fd.write(ytId + ',' + fileSrt + "\n")
       exit()
