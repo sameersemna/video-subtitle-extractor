@@ -361,3 +361,6 @@ $RECYCLE.BIN/
 
 /bulk/download/*
 /bulk/*.tmp
+
+*.mp4
+*.zip
