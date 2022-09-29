@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# apt install youtube-dl
+# apt install youtube-dl # /usr/bin/youtube-dl
+# sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+# sudo chmod a+rx /usr/local/bin/youtube-dl
 # youtube-dl --version
 # which youtube-dl
 
